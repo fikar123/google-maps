@@ -87,7 +87,7 @@ namespace GoogleMapsApi
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = SerializerFactory.GetSerializer<GeocodingResponse>(request.Output);
+				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<GeocodingResponse>(request.Output);
 
 				return (GeocodingResponse)serializer.ReadObject(stream);
 			}
@@ -154,7 +154,7 @@ namespace GoogleMapsApi
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = SerializerFactory.GetSerializer<DirectionsResponse>(request.Output);
+				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<DirectionsResponse>(request.Output);
 
 				return (DirectionsResponse)serializer.ReadObject(stream);
 			}
@@ -193,7 +193,7 @@ namespace GoogleMapsApi
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = SerializerFactory.GetSerializer<ElevationResponse>(request.Output);
+				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<ElevationResponse>(request.Output);
 
 				return (ElevationResponse)serializer.ReadObject(stream);
 			}

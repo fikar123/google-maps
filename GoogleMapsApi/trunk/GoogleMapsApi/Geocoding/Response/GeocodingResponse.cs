@@ -21,6 +21,7 @@ namespace GoogleMapsApi.Geocoding.Response
                Status = (Status)Enum.Parse(typeof(Status), value);
             }
         }
+
         public Status Status { get; set; }
 
         [DataMember(Name="results")]

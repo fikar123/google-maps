@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace GoogleMapsApi.Geocoding.Response
 {
     [DataContract]
-    public enum LocationType
+    public enum GeocodeLocationType
     {
         [EnumMember]
         ROOFTOP, // indicates that the returned result is a precise geocode for which we have location information accurate down to street address precision.

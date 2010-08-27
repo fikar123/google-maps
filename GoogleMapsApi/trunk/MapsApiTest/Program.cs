@@ -7,6 +7,7 @@ using GoogleMapsApi;
 using GoogleMapsApi.Geocoding.Request;
 using GoogleMapsApi.Elevation.Request;
 using System.Reflection;
+using GoogleMapsApi.Common;
 
 namespace MapsApiTest
 {

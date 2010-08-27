@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using GoogleMapsApi.Common;
 
 namespace GoogleMapsApi
 {
-	internal static class SerializerFactory
+	internal static class XmlObjectSerializerFactory
 	{
 		internal static XmlObjectSerializer GetSerializer<TRespnseType>(ResponseOutputType outputType) where TRespnseType : class
 		{
