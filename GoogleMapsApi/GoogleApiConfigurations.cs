@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoogleMapsApi
 {
-    public static class GoogleApiConfigurations
+    internal static class GoogleApiConfigurations
     {
         public static readonly Uri BaseUri;
 
