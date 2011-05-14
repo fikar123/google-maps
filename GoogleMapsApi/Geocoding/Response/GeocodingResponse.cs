@@ -10,7 +10,7 @@ namespace GoogleMapsApi.Geocoding.Response
 	public class GeocodingResponse
 	{
 		[DataMember(Name = "status")]
-		private string StatusStr
+		public string StatusStr
 		{
 			get
 			{
