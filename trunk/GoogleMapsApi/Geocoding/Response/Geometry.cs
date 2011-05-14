@@ -35,7 +35,7 @@ namespace GoogleMapsApi.Geocoding.Response
 
 
 		[DataMember(Name = "location_type")]
-		private string LocationTypeStr
+		public string LocationTypeStr
 		{
 			get
 			{
