@@ -5,7 +5,7 @@
 Some code samples -
 
 The principle is simple -
-Fill the request with the data, call the static method in MapsAPI and the response object arrives.
+Fill the request with the data, call the static method on *MapsAPI* and the response object arrives.
 
 
 = Details =
