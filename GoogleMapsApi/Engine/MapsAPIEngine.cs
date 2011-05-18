@@ -11,15 +11,35 @@ using GoogleMapsApi.Geocoding.Response;
 using System.Linq;
 using GoogleMapsApi.Places.Request;
 using GoogleMapsApi.Places.Response;
+using GoogleMapsApi.Serialization;
 
 namespace GoogleMapsApi.Engine
 {
 	public class MapsAPIEngine : IMapsAPIEngine
 	{
-		private readonly Uri GeocodeUri = new Uri(GoogleApiConfigurations.BaseUri, "geocode/");
-		private readonly Uri DirectionsUri = new Uri(GoogleApiConfigurations.BaseUri, "directions/");
-		private readonly Uri ElevationUri = new Uri(GoogleApiConfigurations.BaseUri, "elevation/");
-		private readonly Uri PlacesUri = new Uri(GoogleApiConfigurations.BaseUri, "place/");
+		public static readonly Uri BaseUri;
+
+		private static readonly Uri GeocodeUri;
+		private static readonly Uri DirectionsUri;
+		private static readonly Uri ElevationUri;
+		private static readonly Uri PlacesUri;
+
+		private IObjectSerializerFactory objectSerializerFactory;
+
+		static MapsAPIEngine()
+		{
+			BaseUri = new Uri("http://maps.google.com/maps/api/");
+
+			GeocodeUri = new Uri(BaseUri, "geocode/");
+			DirectionsUri = new Uri(BaseUri, "directions/");
+			ElevationUri = new Uri(BaseUri, "elevation/");
+			PlacesUri = new Uri(BaseUri, "place/");
+		}
+
+		public MapsAPIEngine()
+		{
+			objectSerializerFactory = new XmlObjectSerializerFactory();
+		}
 
 		public GeocodingResponse GetGeocode(GeocodingRequest request)
 		{
@@ -32,12 +52,12 @@ namespace GoogleMapsApi.Engine
 				{
 					throw new ArgumentException("Location OR Address is required");
 				}
-				
-				
+
+
 				if (request.Location != null)
 				{
 					queryString.Add("latlng",
-					                string.Format("{0},{1}", request.Location.Latitude, request.Location.Longitude));
+													string.Format("{0},{1}", request.Location.Latitude, request.Location.Longitude));
 				}
 				if (!string.IsNullOrWhiteSpace(request.Address))
 				{
@@ -70,7 +90,7 @@ namespace GoogleMapsApi.Engine
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<GeocodingResponse>(request.Output);
+				XmlObjectSerializer serializer = objectSerializerFactory.GetSerializer<GeocodingResponse>(request.Output);
 
 				return (GeocodingResponse)serializer.ReadObject(stream);
 			}
@@ -136,7 +156,7 @@ namespace GoogleMapsApi.Engine
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<DirectionsResponse>(request.Output);
+				XmlObjectSerializer serializer = objectSerializerFactory.GetSerializer<DirectionsResponse>(request.Output);
 
 				return (DirectionsResponse)serializer.ReadObject(stream);
 			}
@@ -172,7 +192,7 @@ namespace GoogleMapsApi.Engine
 
 				var stream = wc.OpenRead(uri);
 
-				XmlObjectSerializer serializer = XmlObjectSerializerFactory.GetSerializer<ElevationResponse>(request.Output);
+				XmlObjectSerializer serializer = objectSerializerFactory.GetSerializer<ElevationResponse>(request.Output);
 
 				return (ElevationResponse)serializer.ReadObject(stream);
 			}

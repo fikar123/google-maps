@@ -64,9 +64,9 @@
     <Compile Include="Geocoding\Response\LocationType.cs" />
     <Compile Include="Geocoding\Response\Result.cs" />
     <Compile Include="Geocoding\Response\Status.cs" />
-    <Compile Include="XmlObjectSerializerFactory.cs" />
+    <Compile Include="Serialization\IObjectSerializerFactory.cs" />
+    <Compile Include="Serialization\XmlObjectSerializerFactory.cs" />
     <Compile Include="Common\Type.cs" />
-    <Compile Include="GoogleApiConfigurations.cs" />
     <Compile Include="Common\Location.cs" />
     <Compile Include="MapsAPI.cs" />
     <Compile Include="Places\Request\PlacesRequest.cs" />
