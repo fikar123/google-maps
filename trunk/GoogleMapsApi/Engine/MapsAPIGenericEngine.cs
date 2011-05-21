@@ -3,8 +3,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using GoogleMapsApi.Common;
-using GoogleMapsApi.Geocoding.Response;
+using GoogleMapsApi.Entities.Common;
 using System.Linq;
 using GoogleMapsApi.Serialization;
 

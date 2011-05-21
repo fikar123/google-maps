@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GoogleMapsApi.Engine;
-using GoogleMapsApi.Geocoding.Response;
-using GoogleMapsApi.Geocoding.Request;
-using GoogleMapsApi.Directions.Response;
-using GoogleMapsApi.Directions.Request;
+using GoogleMapsApi.Entities.Directions.Request;
+using GoogleMapsApi.Entities.Directions.Response;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi.Entities.Elevation.Response;
 using System.Runtime.Serialization.Json;
 using System.Net;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using GoogleMapsApi.Elevation.Request;
-using GoogleMapsApi.Elevation.Response;
-using GoogleMapsApi.Places.Response;
-using GoogleMapsApi.Places.Request;
+using GoogleMapsApi.Entities.Geocoding.Request;
+using GoogleMapsApi.Entities.Geocoding.Response;
+using GoogleMapsApi.Entities.Places.Request;
+using GoogleMapsApi.Entities.Places.Response;
 
 namespace GoogleMapsApi
 {
+	/// <summary>
+	/// Static facade class to MapsAPI
+	/// </summary>
 	public static class MapsAPI
 	{
 		private static readonly IMapsAPIEngine MapsAPIEngine;

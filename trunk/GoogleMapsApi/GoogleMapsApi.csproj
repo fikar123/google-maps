@@ -41,50 +41,50 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\MapsBaseRequest.cs" />
-    <Compile Include="Directions\Request\AvoidWay.cs" />
-    <Compile Include="Directions\Request\DirectionsRequest.cs" />
-    <Compile Include="Directions\Response\Distance.cs" />
-    <Compile Include="Directions\Response\Duration.cs" />
-    <Compile Include="Directions\Response\Leg.cs" />
-    <Compile Include="Directions\Response\DirectionsResponse.cs" />
-    <Compile Include="Directions\Response\Route.cs" />
-    <Compile Include="Directions\Response\Step.cs" />
-    <Compile Include="Elevation\Request\ElevationRequest.cs" />
-    <Compile Include="Elevation\Response\ElevationResponse.cs" />
-    <Compile Include="Elevation\Response\Result.cs" />
-    <Compile Include="Elevation\Response\Status.cs" />
     <Compile Include="Engine\DirectionsEngine.cs" />
     <Compile Include="Engine\ElevationEngine.cs" />
     <Compile Include="Engine\GeocodingEngine.cs" />
     <Compile Include="Engine\IMapsAPIEngine.cs" />
     <Compile Include="Engine\MapsAPIEngine.cs" />
     <Compile Include="Engine\MapsAPIGenericEngine.cs" />
-    <Compile Include="Geocoding\Request\GeocodingRequest.cs" />
-    <Compile Include="Geocoding\Response\AddressComponent.cs" />
-    <Compile Include="Geocoding\Response\FramedLocation.cs" />
-    <Compile Include="Geocoding\Response\GeocodingResponse.cs" />
-    <Compile Include="Geocoding\Response\Geometry.cs" />
-    <Compile Include="Geocoding\Response\LocationType.cs" />
-    <Compile Include="Geocoding\Response\Result.cs" />
-    <Compile Include="Geocoding\Response\Status.cs" />
+    <Compile Include="Entities\Common\Location.cs" />
+    <Compile Include="Entities\Common\MapsBaseRequest.cs" />
+    <Compile Include="Entities\Common\ResponseOutputType.cs" />
+    <Compile Include="Entities\Common\Type.cs" />
+    <Compile Include="Entities\Directions\Request\AvoidWay.cs" />
+    <Compile Include="Entities\Directions\Request\DirectionsRequest.cs" />
+    <Compile Include="Entities\Directions\Request\TravelMode.cs" />
+    <Compile Include="Entities\Directions\Response\DirectionsResponse.cs" />
+    <Compile Include="Entities\Directions\Response\Distance.cs" />
+    <Compile Include="Entities\Directions\Response\Duration.cs" />
+    <Compile Include="Entities\Directions\Response\Leg.cs" />
+    <Compile Include="Entities\Directions\Response\Route.cs" />
+    <Compile Include="Entities\Directions\Response\StatusCodes.cs" />
+    <Compile Include="Entities\Directions\Response\Step.cs" />
+    <Compile Include="Entities\Elevation\Request\ElevationRequest.cs" />
+    <Compile Include="Entities\Elevation\Response\ElevationResponse.cs" />
+    <Compile Include="Entities\Elevation\Response\Result.cs" />
+    <Compile Include="Entities\Elevation\Response\Status.cs" />
+    <Compile Include="Entities\Geocoding\Request\GeocodingRequest.cs" />
+    <Compile Include="Entities\Geocoding\Response\AddressComponent.cs" />
+    <Compile Include="Entities\Geocoding\Response\FramedLocation.cs" />
+    <Compile Include="Entities\Geocoding\Response\GeocodingResponse.cs" />
+    <Compile Include="Entities\Geocoding\Response\Geometry.cs" />
+    <Compile Include="Entities\Geocoding\Response\LocationType.cs" />
+    <Compile Include="Entities\Geocoding\Response\Result.cs" />
+    <Compile Include="Entities\Geocoding\Response\Status.cs" />
+    <Compile Include="Entities\Places\Request\PlacesRequest.cs" />
+    <Compile Include="Entities\Places\Response\PlacesResponse.cs" />
+    <Compile Include="Entities\Places\Response\Result.cs" />
+    <Compile Include="Entities\Places\Response\Status.cs" />
     <Compile Include="Serialization\IObjectSerializerFactory.cs" />
     <Compile Include="Serialization\XmlObjectSerializerFactory.cs" />
-    <Compile Include="Common\Type.cs" />
-    <Compile Include="Common\Location.cs" />
     <Compile Include="MapsAPI.cs" />
-    <Compile Include="Places\Request\PlacesRequest.cs" />
-    <Compile Include="Places\Response\PlacesResponse.cs" />
-    <Compile Include="Places\Response\Result.cs" />
-    <Compile Include="Places\Response\Status.cs" />
-    <Compile Include="Common\ResponseOutputType.cs" />
-    <Compile Include="Directions\Response\StatusCodes.cs" />
-    <Compile Include="Directions\Request\TravelMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="Directions\The Google Directions API - Google Maps API Web Services - Google Code.htm" />
+    <None Include="Entities\Directions\The Google Directions API - Google Maps API Web Services - Google Code.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
