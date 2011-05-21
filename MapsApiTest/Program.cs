@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GoogleMapsApi.Directions.Request;
 using GoogleMapsApi;
-using GoogleMapsApi.Directions.Response;
-using GoogleMapsApi.Elevation.Response;
 using GoogleMapsApi.Engine;
-using GoogleMapsApi.Geocoding.Request;
-using GoogleMapsApi.Elevation.Request;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Directions.Request;
+using GoogleMapsApi.Entities.Directions.Response;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi.Entities.Elevation.Response;
 using System.Reflection;
-using GoogleMapsApi.Common;
-using GoogleMapsApi.Geocoding.Response;
+using GoogleMapsApi.Entities.Geocoding.Request;
+using GoogleMapsApi.Entities.Geocoding.Response;
 
 namespace MapsApiTest
 {

@@ -5,9 +5,9 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using GoogleMapsApi.Common;
-using GoogleMapsApi.Geocoding.Request;
-using GoogleMapsApi.Geocoding.Response;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Geocoding.Request;
+using GoogleMapsApi.Entities.Geocoding.Response;
 
 namespace GoogleMapsApi.Engine
 {

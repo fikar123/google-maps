@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using GoogleMapsApi.Common;
+using GoogleMapsApi.Entities.Common;
 
 namespace GoogleMapsApi.Serialization
 {
 	internal class XmlObjectSerializerFactory : IObjectSerializerFactory
 	{
-		public XmlObjectSerializer GetSerializer<TResponseType>(ResponseOutputType outputType) where TResponseType : class
+		public XmlObjectSerializer GetSerializer<TResponseType>(ResponseOutputType outputType) 
+			where TResponseType : class
 		{
 			XmlObjectSerializer serializer;
 			switch (outputType)

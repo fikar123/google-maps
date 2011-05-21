@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Net;
-using GoogleMapsApi.Common;
-using GoogleMapsApi.Elevation.Request;
-using GoogleMapsApi.Elevation.Response;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi.Entities.Elevation.Response;
 
 namespace GoogleMapsApi.Engine
 {
