@@ -6,6 +6,7 @@ using GoogleMapsApi.Directions.Request;
 using GoogleMapsApi;
 using GoogleMapsApi.Directions.Response;
 using GoogleMapsApi.Elevation.Response;
+using GoogleMapsApi.Engine;
 using GoogleMapsApi.Geocoding.Request;
 using GoogleMapsApi.Elevation.Request;
 using System.Reflection;
@@ -18,7 +19,7 @@ namespace MapsApiTest
 	{
 		static void Main(string[] args)
 		{
-			//Directions
+			//Static class use (Directions)
 			DirectionsRequest directionsRequest = new DirectionsRequest()
 			{
 				Origin = "NYC, 5th and 39",
@@ -27,28 +28,41 @@ namespace MapsApiTest
 
 			DirectionsResponse directions = MapsAPI.GetDirections(directionsRequest);
 
+			Console.WriteLine(directions);
 
-			//Geocode
+
+			//Instance class use (Geocode)
 			GeocodingRequest geocodeRequest = new GeocodingRequest()
 			{
 				Address = "new york city",
 			};
 
+			GeocodingEngine geocodingEngine = new GeocodingEngine();
 
-			GeocodingResponse geocode = MapsAPI.GetGeocode(geocodeRequest);
+			GeocodingResponse geocode = geocodingEngine.GetGeocode(geocodeRequest);
 
 			Console.WriteLine(geocode);
 
-			//Elevation
+
+			//Instance class - Async! (Elevation)
 			ElevationRequest elevationRequest = new ElevationRequest()
 			{
 				Locations = new Location[] { new Location(54, 78) },
 			};
 
+			ElevationEngine elevationEngine = new ElevationEngine();
 
-			ElevationResponse elevation = MapsAPI.GetElevation(elevationRequest);
+			elevationEngine.BeginGetElevation(elevationRequest,
+																				ar =>
+																				{
+																					ElevationResponse elevation = elevationEngine.EndGetElevation(ar);
+																					Console.WriteLine(elevation);
+																				},
+																				null);
 
-			Console.WriteLine(elevation);
+			Console.WriteLine("Finised! (But wait .. async elevation request should get response soon)");
+
+			Console.ReadKey();
 		}
 	}
 }
