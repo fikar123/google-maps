@@ -10,6 +10,9 @@ using GoogleMapsApi.Places.Response;
 
 namespace GoogleMapsApi.Engine
 {
+	/// <summary>
+	/// This class is a facade to all Maps engines.
+	/// </summary>
 	public class MapsAPIEngine : IMapsAPIEngine
 	{
 		public GeocodingResponse GetGeocode(GeocodingRequest request)
