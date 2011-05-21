@@ -3,7 +3,7 @@ using GoogleMapsApi.Common;
 
 namespace GoogleMapsApi.Serialization
 {
-	interface IObjectSerializerFactory
+	public interface IObjectSerializerFactory
 	{
 		XmlObjectSerializer GetSerializer<TResponseType>(ResponseOutputType outputType) where TResponseType : class;
 	}

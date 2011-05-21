@@ -32,5 +32,11 @@ namespace GoogleMapsApi.Directions.Response
 		/// </summary>
 		[DataMember(Name = "routes")]
 		public IEnumerable<Route> Routes { get; set; }
+
+
+		public override string ToString()
+		{
+			return string.Format("DirectionsResponse - Status: {0}, Results count: {1}", Status, Routes != null ? Routes.Count() : 0);
+		}
 	}
 }
