@@ -54,8 +54,12 @@
     <Compile Include="Elevation\Response\ElevationResponse.cs" />
     <Compile Include="Elevation\Response\Result.cs" />
     <Compile Include="Elevation\Response\Status.cs" />
+    <Compile Include="Engine\DirectionsEngine.cs" />
+    <Compile Include="Engine\ElevationEngine.cs" />
+    <Compile Include="Engine\GeocodingEngine.cs" />
     <Compile Include="Engine\IMapsAPIEngine.cs" />
     <Compile Include="Engine\MapsAPIEngine.cs" />
+    <Compile Include="Engine\MapsAPIGenericEngine.cs" />
     <Compile Include="Geocoding\Request\GeocodingRequest.cs" />
     <Compile Include="Geocoding\Response\AddressComponent.cs" />
     <Compile Include="Geocoding\Response\FramedLocation.cs" />
