@@ -94,6 +94,21 @@ namespace GoogleMapsApi.Engine
 				string wayPoints = string.Join("|", request.Waypoints);
 				queryString.Add("waypoints", wayPoints);
 			}
+
+			switch (request.Mode)
+			{
+				case TravelMode.Driving:
+					queryString.Add("mode", "driving");
+					break;
+				case TravelMode.Bicycling:
+					queryString.Add("mode", "bicycling");
+					break;
+				case TravelMode.Walking:
+					queryString.Add("mode", "walking");
+					break;
+				default:
+					throw new ArgumentException("Unknown value for 'TravelMode' enum");
+			}
 		}
 
 		
