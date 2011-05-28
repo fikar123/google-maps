@@ -95,7 +95,7 @@ namespace GoogleMapsApi.Engine
 				queryString.Add("waypoints", wayPoints);
 			}
 
-			switch (request.Mode)
+			switch (request.TravelMode)
 			{
 				case TravelMode.Driving:
 					queryString.Add("mode", "driving");

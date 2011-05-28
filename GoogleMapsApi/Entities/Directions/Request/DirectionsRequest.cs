@@ -40,6 +40,6 @@ namespace GoogleMapsApi.Entities.Directions.Request
 		/// <summary>
 		/// (optional, defaults to driving) — specifies what mode of transport to use when calculating directions. Valid values are specified in Travel Modes.
 		/// </summary>
-		public TravelMode Mode { get; set; }
+		public TravelMode TravelMode { get; set; }
 	}
 }
