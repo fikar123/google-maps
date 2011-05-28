@@ -11,13 +11,13 @@ namespace GoogleMapsApi.Engine
 {
 	public abstract class MapsAPIGenericEngine
 	{
-		protected static readonly Uri BaseUri;
+		protected static readonly string BaseUrl;
 
 		protected IObjectSerializerFactory objectSerializerFactory;
 
 		static MapsAPIGenericEngine()
 		{
-			BaseUri = new Uri("http://maps.google.com/maps/api/");
+			BaseUrl = @"maps.google.com/maps/api/";
 
 			//PlacesUri = new Uri(BaseUri, "place/");
 		}

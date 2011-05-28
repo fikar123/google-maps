@@ -13,11 +13,11 @@ namespace GoogleMapsApi.Engine
 {
 	public class GeocodingEngine : MapsAPIGenericEngine
 	{
-		private static readonly Uri GeocodeUri;
+		private static readonly string GeocodeUri;
 
 		static GeocodingEngine()
 		{
-			GeocodeUri = new Uri(MapsAPIGenericEngine.BaseUri, "geocode/");
+			GeocodeUri = @"geocode/";
 		}
 
 		public IAsyncResult BeginGetGeocode(GeocodingRequest request, AsyncCallback asyncCallback, object state)
@@ -39,7 +39,11 @@ namespace GoogleMapsApi.Engine
 
 		override protected Uri GetUri(MapsBaseRequest request)
 		{
-			return new Uri(GeocodeUri, request.Output.ToString().ToLower());
+			string scheme = request.IsSSL ? "https://" : "http://";
+
+			Uri uri = new Uri(scheme + BaseUrl + GeocodeUri + request.Output.ToString().ToLower());
+
+			return uri;
 		}
 
 		override protected void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)
