@@ -10,11 +10,11 @@ namespace GoogleMapsApi.Engine
 {
 	public class DirectionsEngine : MapsAPIGenericEngine
 	{
-		private static readonly Uri DirectionsUri;
+		private static readonly string DirectionsUrl;
 
 		static DirectionsEngine()
 		{
-			DirectionsUri = new Uri(BaseUri, "directions/");			
+			DirectionsUrl = @"directions/";
 		}
 
 		public IAsyncResult BeginGetDirections(DirectionsRequest request, AsyncCallback asyncCallback, object state)
@@ -34,7 +34,9 @@ namespace GoogleMapsApi.Engine
 
 		protected override Uri GetUri(MapsBaseRequest request)
 		{
-			Uri uri = new Uri(DirectionsUri, request.Output.ToString().ToLower());
+			string scheme = request.IsSSL ? "https://" : "http://";
+
+			Uri uri = new Uri(scheme + BaseUrl + DirectionsUrl + request.Output.ToString().ToLower());
 
 			return uri;
 		}

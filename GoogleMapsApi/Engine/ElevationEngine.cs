@@ -10,11 +10,11 @@ namespace GoogleMapsApi.Engine
 {
 	public class ElevationEngine : MapsAPIGenericEngine
 	{
-		private static readonly Uri ElevationUri;
+		private static readonly string ElevationUrl;
 
 		static ElevationEngine()
 		{
-			ElevationUri = new Uri(BaseUri, "elevation/");
+			ElevationUrl = @"elevation/";
 		}
 
 		public IAsyncResult BeginGetElevation(ElevationRequest request, AsyncCallback asyncCallback, object state)
@@ -35,7 +35,11 @@ namespace GoogleMapsApi.Engine
 
 		protected override Uri GetUri(MapsBaseRequest request)
 		{
-			return new Uri(ElevationUri, request.Output.ToString().ToLower());
+			string scheme = request.IsSSL ? "https://" : "http://";
+
+			Uri uri = new Uri(scheme + BaseUrl + ElevationUrl + request.Output.ToString().ToLower());
+
+			return uri;
 		}
 
 		protected override void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)
