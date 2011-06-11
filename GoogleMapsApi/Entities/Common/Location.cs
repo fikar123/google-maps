@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace GoogleMapsApi.Entities.Common
 {
     [DataContract]
-    public class Location
+    public class Location : ILocation
     {
         [DataMember(Name="lat")]
         public double Latitude { get; set; }
@@ -16,5 +17,10 @@ namespace GoogleMapsApi.Entities.Common
 					Latitude = lat;
 					Longitude = lng;
 				}
+
+    	public string LocationString
+    	{
+				get { return string.Format("{0},{1}", this.Latitude, this.Longitude); }
+    	}
     }
 }
