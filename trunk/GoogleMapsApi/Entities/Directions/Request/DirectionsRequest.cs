@@ -32,7 +32,11 @@ namespace GoogleMapsApi.Entities.Directions.Request
 		public AvoidWay Avoid { get; set; }
 
 		/// <summary>
-		/// language (optional) — The language in which to return results. See the supported list of domain languages. Note that we often update supported languages so this list may not be exhaustive. If language is not supplied, the Directions service will attempt to use the native language of the browser wherever possible. You may also explicitly bias the results by using localized domains of http://map.google.com. See Region Biasing for more information.
+		/// language (optional) — The language in which to return results. See the supported list of domain languages. 
+		/// Note that we often update supported languages so this list may not be exhaustive. 
+		/// If language is not supplied, the Directions service will attempt to use the native language of the browser wherever possible. 
+		/// You may also explicitly bias the results by using localized domains of http://map.google.com. 
+		/// See Region Biasing for more information.
 		/// </summary>
 		public string Language { get; set; }
 

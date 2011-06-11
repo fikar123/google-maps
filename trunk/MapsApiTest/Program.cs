@@ -12,6 +12,9 @@ using GoogleMapsApi.Entities.Elevation.Response;
 using System.Reflection;
 using GoogleMapsApi.Entities.Geocoding.Request;
 using GoogleMapsApi.Entities.Geocoding.Response;
+using GoogleMapsApi.StaticMaps;
+using GoogleMapsApi.StaticMaps.Entities;
+using GoogleMapsApi.StaticMaps.Enums;
 
 namespace MapsApiTest
 {
@@ -44,6 +47,34 @@ namespace MapsApiTest
 			Console.WriteLine(geocode);
 
 
+			// Static maps API - get static map of with the path of the directions request
+			StaticMapsEngine staticMapGenerator = new StaticMapsEngine();
+
+			//Path from previos directions request
+			IEnumerable<Step> steps = directions.Routes.First().Legs.First().Steps;
+			// All start locations
+			IList<ILocation> path = steps.Select(step => step.StartLocation).ToList<ILocation>();
+			// also the end location of the last step
+			path.Add(steps.Last().EndLocation);
+
+			string url = staticMapGenerator.GenerateStaticMapURL(new StaticMapRequest(new Location(40.38742, -74.55366), 9, new ImageSize(800, 400))
+			{
+				Pathes = new List<Path>(){ new Path()
+				{
+					Style = new PathStyle()
+					{
+						Color = "red"
+					},
+					Locations = path
+				}}
+
+
+			});
+
+			Console.WriteLine("Greenwich map : " + url);
+
+
+
 			//Instance class - Async! (Elevation)
 			ElevationRequest elevationRequest = new ElevationRequest()
 			{
@@ -61,6 +92,8 @@ namespace MapsApiTest
 																				null);
 
 			Console.WriteLine("Finised! (But wait .. async elevation request should get response soon)");
+
+
 
 			Console.ReadKey();
 		}

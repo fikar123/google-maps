@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
     <Compile Include="Engine\IMapsAPIEngine.cs" />
     <Compile Include="Engine\MapsAPIEngine.cs" />
     <Compile Include="Engine\MapsAPIGenericEngine.cs" />
+    <Compile Include="Entities\Common\ILocation.cs" />
     <Compile Include="Entities\Common\Location.cs" />
     <Compile Include="Entities\Common\MapsBaseRequest.cs" />
     <Compile Include="Entities\Common\ResponseOutputType.cs" />
@@ -81,6 +83,21 @@
     <Compile Include="Serialization\XmlObjectSerializerFactory.cs" />
     <Compile Include="MapsAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entities\Common\AddressLocation.cs" />
+    <Compile Include="StaticMaps\Entities\Marker.cs" />
+    <Compile Include="StaticMaps\Entities\ImageSize.cs" />
+    <Compile Include="StaticMaps\Entities\MarkerStyle.cs" />
+    <Compile Include="StaticMaps\Entities\MapStyle.cs" />
+    <Compile Include="StaticMaps\Entities\Path.cs" />
+    <Compile Include="StaticMaps\Entities\PathStyle.cs" />
+    <Compile Include="StaticMaps\Enums\ImageFormat.cs" />
+    <Compile Include="StaticMaps\Enums\MapElement.cs" />
+    <Compile Include="StaticMaps\Enums\MapFeatures.cs" />
+    <Compile Include="StaticMaps\Enums\MapType.cs" />
+    <Compile Include="StaticMaps\Entities\StaticMapRequest.cs" />
+    <Compile Include="StaticMaps\Enums\MapVisibility.cs" />
+    <Compile Include="StaticMaps\Enums\MarkerSize.cs" />
+    <Compile Include="StaticMaps\StaticMapsEngine.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
