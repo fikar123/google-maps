@@ -71,7 +71,7 @@ namespace MapsApiTest
 
 			});
 
-			Console.WriteLine("Greenwich map : " + url);
+			Console.WriteLine("Map with path: " + url);
 
 
 
