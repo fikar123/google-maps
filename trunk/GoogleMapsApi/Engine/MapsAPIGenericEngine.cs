@@ -31,7 +31,7 @@ namespace GoogleMapsApi.Engine
 			where TRequest : MapsBaseRequest
 			where TResponse : class
 		{
-			TaskCompletionSource<TResponse> tcs = new TaskCompletionSource<TResponse>();
+			TaskCompletionSource<TResponse> tcs = new TaskCompletionSource<TResponse>(state);
 			
 			//Set the webclient and initiate the async WebRequest in a new task.
 			Task.Factory.StartNew(() =>
