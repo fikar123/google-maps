@@ -52,7 +52,7 @@ namespace GoogleMapsApi.Engine
 
 			NameValueCollection queryString = wc.QueryString;
 
-			if (request.Location != null &&
+			if (request.Location == null &&
 					string.IsNullOrWhiteSpace(request.Address))
 			{
 				throw new ArgumentException("Location OR Address is required");
