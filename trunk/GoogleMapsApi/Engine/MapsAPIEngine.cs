@@ -32,7 +32,7 @@ namespace GoogleMapsApi.Engine
 
 		public PlacesResponse GetPlace(PlacesRequest request)
 		{
-			throw new NotImplementedException();
+			return new PlacesEngine().GetPlaces(request);
 		}
 	}
 }

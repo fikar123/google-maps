@@ -9,6 +9,6 @@
 		/// </summary>
 		public bool Sensor { get; set; } //Required
 
-		public bool IsSSL { get; set; }
+		public virtual bool IsSSL { get; set; }
 	}
 }

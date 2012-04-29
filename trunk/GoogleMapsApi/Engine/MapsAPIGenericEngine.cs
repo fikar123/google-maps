@@ -11,7 +11,7 @@ namespace GoogleMapsApi.Engine
 {
 	public abstract class MapsAPIGenericEngine
 	{
-		protected static readonly string BaseUrl;
+		protected static string BaseUrl;
 
 		protected IObjectSerializerFactory objectSerializerFactory;
 
