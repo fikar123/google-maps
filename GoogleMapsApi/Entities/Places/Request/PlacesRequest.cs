@@ -1,4 +1,5 @@
-﻿using GoogleMapsApi.Entities.Common;
+﻿using System;
+using GoogleMapsApi.Entities.Common;
 
 namespace GoogleMapsApi.Entities.Places.Request
 {
@@ -10,23 +11,59 @@ namespace GoogleMapsApi.Entities.Places.Request
 	public class PlacesRequest : MapsBaseRequest
 	{
 		/// <summary>
+		/// Your application's API key. This key identifies your application for purposes of quota management and so that Places 
+		/// added from your application are made immediately available to your app. Visit the APIs Console to create an API Project and obtain your key.
+		/// </summary>
+		public string ApiKey { get; set; }
+
+		/// <summary>
 		/// location (required) — The textual latitude/longitude value from which you wish to retrieve place information.
 		/// </summary>
 		public Location Location { get; set; } //Required
 
 		/// <summary>
-		/// radius (required) — The distance (in meters) within which to return Place results.
+		/// Defines the distance (in meters) within which to return Place results. The maximum allowed radius is 50 000 meters. 
+		/// Note that radius must not be included if rankby=distance (described under Optional parameters below) is specified.
 		/// </summary>
-		public double Radius { get; set; } //Required
+		public double? Radius { get; set; }
 
 		/// <summary>
-		/// client (required) — Specifies the registered application using this service.
+		/// A term to be matched against all content that Google has indexed for this Place, 
+		/// including but not limited to name, type, and address, as well as customer reviews and other third-party content.
 		/// </summary>
-		public string Client { get; set; } //Required
+		public string Keyword { get; set; }
 
 		/// <summary>
-		/// signature (required) — The generated value of signing this URL using the client's cryptographic key. (See URL Authentication for more information.)
+		/// The language code, indicating in which language the results should be returned, if possible. See the list of supported languages and their codes. 
+		/// Note that we often update supported languages so this list may not be exhaustive.
 		/// </summary>
-		public string Signature { get; set; } //Required
+		public string Language { get; set; }
+
+		/// <summary>
+		///  A term to be matched against the names of Places. Results will be restricted to those containing the passed name value.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Specifies the order in which results are listed
+		/// </summary>
+		public RankBy RankBy { get; set; }
+
+		/// <summary>
+		/// Restricts the results to Places matching at least one of the specified types. 
+		/// Types should be separated with a pipe symbol (type1|type2|etc). 
+		/// See the list of supported types - https://developers.google.com/maps/documentation/places/supported_types
+		/// 
+		/// </summary>
+		public string Types { get; set; }
+
+		public override bool IsSSL
+		{
+			get
+			{
+				return true;
+			}
+			set { throw new NotSupportedException("This operation is not supported, PlacesRequest must use SSL"); }
+		}
 	}
 }
