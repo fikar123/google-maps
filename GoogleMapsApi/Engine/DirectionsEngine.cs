@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
@@ -30,6 +31,11 @@ namespace GoogleMapsApi.Engine
 		public DirectionsResponse GetDirections(DirectionsRequest request)
 		{
 			return QueryGoogleAPI<DirectionsRequest, DirectionsResponse>(request);
+		}
+		
+		public Task<DirectionsResponse> GetDirectionsAsync(DirectionsRequest request)
+		{
+			return QueryGoogleAPIAsync<DirectionsRequest, DirectionsResponse>(request);
 		}
 
 		protected override Uri GetUri(MapsBaseRequest request)

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Net;
+using System.Threading.Tasks;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi.Entities.Elevation.Response;
@@ -30,6 +31,11 @@ namespace GoogleMapsApi.Engine
 		public ElevationResponse GetElevation(ElevationRequest request)
 		{
 			return QueryGoogleAPI<ElevationRequest, ElevationResponse>(request);
+		}
+		
+		public Task<ElevationResponse> GetElevationAsync(ElevationRequest request)
+		{
+			return QueryGoogleAPIAsync<ElevationRequest, ElevationResponse>(request);
 		}
 
 

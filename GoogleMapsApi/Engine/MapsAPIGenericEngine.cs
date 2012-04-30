@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using GoogleMapsApi.Entities.Common;
 using System.Linq;
 using GoogleMapsApi.Serialization;
@@ -18,8 +20,6 @@ namespace GoogleMapsApi.Engine
 		static MapsAPIGenericEngine()
 		{
 			BaseUrl = @"maps.google.com/maps/api/";
-
-			//PlacesUri = new Uri(BaseUri, "place/");
 		}
 
 		protected MapsAPIGenericEngine()
@@ -31,83 +31,58 @@ namespace GoogleMapsApi.Engine
 			where TRequest : MapsBaseRequest
 			where TResponse : class
 		{
-			TaskCompletionSource<TResponse> tcs = new TaskCompletionSource<TResponse>(state);
-			
-			//Set the webclient and initiate the async WebRequest in a new task.
-			Task.Factory.StartNew(() =>
-															{
-																WebClient wc = new WebClient();
+			// Must use TaskCompletionSource because in .NET 4.0 there's no overload of ContinueWith that accepts a state object (used in IAsyncResult).
+			// Such overloads have been added in .NET 4.5, so this can be removed if/when the project is promoted to that version.
+			// An example of such an added overload can be found at: http://msdn.microsoft.com/en-us/library/hh160386.aspx
 
-																ConfigureUnderlyingWebClient(wc, request);
+			var completionSource = new TaskCompletionSource<TResponse>(state);
+			QueryGoogleAPIAsync<TRequest, TResponse>(request).ContinueWith(t =>
+			{
+				if (t.IsFaulted)
+					completionSource.SetException(t.Exception);
+				else if (t.IsCanceled)
+					completionSource.SetCanceled();
+				else
+					completionSource.SetResult(t.Result);
 
-																Uri uri = GetUri(request);
+				asyncCallback(completionSource.Task);
+			});
 
-																OpenReadCompletedEventHandler completedEventHandler = null;
-
-																completedEventHandler = (sender, args) =>
-																													{
-																														wc.OpenReadCompleted -= completedEventHandler;
-
-																														Stream stream = args.Result;
-
-																														try
-																														{
-																															XmlObjectSerializer serializer = GetSerializer<TResponse>(request);
-
-																															TResponse result =
-																																(TResponse)serializer.ReadObject(stream);
-
-																															tcs.SetResult(result);
-																														}
-																														catch (Exception ex)
-																														{
-																															tcs.SetException(ex);
-																														}
-
-																													};
-
-																wc.OpenReadCompleted += completedEventHandler;
-
-																wc.OpenReadAsync(uri);
-															}).ContinueWith(faultedTask => tcs.SetException(faultedTask.Exception),
-																							TaskContinuationOptions.OnlyOnFaulted)
-																.ContinueWith(task =>
-																								{
-																									if (asyncCallback != null)
-																									{
-																										asyncCallback(tcs.Task);
-																									}
-																								});
-
-			return tcs.Task;
+			return completionSource.Task;
 		}
 
 		protected TResponse EndQueryGoogleAPI<TResponse>(IAsyncResult asyncResult)
 			where TResponse : class 
 		{
-			Task<TResponse> task = (Task<TResponse>)asyncResult;
-
-			return task.Result;
+			return ((Task<TResponse>)asyncResult).Result;
 		}
 
 		protected TResponse QueryGoogleAPI<TRequest, TResponse>(TRequest request)
 			where TRequest : MapsBaseRequest
 			where TResponse : class 
 		{
-			IAsyncResult asyncResult = BeginQueryGoogleAPI<TRequest, TResponse>(request, null, null);
-
-			return EndQueryGoogleAPI<TResponse>(asyncResult);
+			return QueryGoogleAPIAsync<TRequest, TResponse>(request).Result;
 		}
 
-
-		abstract protected Uri GetUri(MapsBaseRequest request);
-
-		protected abstract void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest request);
-		
-		protected virtual XmlObjectSerializer GetSerializer<TResponse>(MapsBaseRequest request)
-			where TResponse : class 
+		protected Task<TResponse> QueryGoogleAPIAsync<TRequest, TResponse>(TRequest request)
+			where TRequest : MapsBaseRequest
+			where TResponse : class
 		{
-			return objectSerializerFactory.GetSerializer<TResponse>(request.Output);
+			var client = new WebClient();
+			ConfigureUnderlyingWebClient(client, request);
+			return client.DownloadStringTaskAsync(GetUri(request))
+				.ContinueWith(t => Deserialize<TRequest, TResponse>(request, t.Result), TaskContinuationOptions.ExecuteSynchronously);
+		}
+
+		protected abstract Uri GetUri(MapsBaseRequest request);
+		protected abstract void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest request);
+
+		private TResponse Deserialize<TRequest, TResponse>(TRequest request, string serializedObject)
+			where TRequest : MapsBaseRequest
+			where TResponse : class
+		{
+			var serializer = objectSerializerFactory.GetSerializer<TResponse>(request.Output);
+			return (TResponse)serializer.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(serializedObject)));
 		}
 	}
 }

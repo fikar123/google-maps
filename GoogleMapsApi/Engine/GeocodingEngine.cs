@@ -35,6 +35,11 @@ namespace GoogleMapsApi.Engine
 			return QueryGoogleAPI<GeocodingRequest ,GeocodingResponse>(request);
 		}
 
+		public Task<GeocodingResponse> GetGeocodeAsync(GeocodingRequest request)
+		{
+			return QueryGoogleAPIAsync<GeocodingRequest, GeocodingResponse>(request);
+		}
+
 
 
 		override protected Uri GetUri(MapsBaseRequest request)
