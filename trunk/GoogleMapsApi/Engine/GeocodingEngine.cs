@@ -1,9 +1,7 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Net;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Geocoding.Request;
@@ -11,46 +9,36 @@ using GoogleMapsApi.Entities.Geocoding.Response;
 
 namespace GoogleMapsApi.Engine
 {
-	public class GeocodingEngine : MapsAPIGenericEngine
+	public class GeocodingEngine : MapsAPIGenericEngine<GeocodingRequest, GeocodingResponse>
 	{
-		private static readonly string GeocodeUri;
-
-		static GeocodingEngine()
+		protected override string BaseUrl
 		{
-			GeocodeUri = @"geocode/";
+			get
+			{
+				return base.BaseUrl + "geocode/";
+			}
 		}
 
 		public IAsyncResult BeginGetGeocode(GeocodingRequest request, AsyncCallback asyncCallback, object state)
 		{
-			return BeginQueryGoogleAPI<GeocodingRequest, GeocodingResponse>(request, asyncCallback, state);
+			return BeginQueryGoogleAPI(request, asyncCallback, state);
 		}
 
 		public GeocodingResponse EndGetGeocode(IAsyncResult asyncResult)
 		{
-			return EndQueryGoogleAPI<GeocodingResponse>(asyncResult);
+			return EndQueryGoogleAPI(asyncResult);
 		}
 
 		public GeocodingResponse GetGeocode(GeocodingRequest request)
 		{
-			return QueryGoogleAPI<GeocodingRequest ,GeocodingResponse>(request);
+			return QueryGoogleAPI(request);
 		}
 
 		public Task<GeocodingResponse> GetGeocodeAsync(GeocodingRequest request)
 		{
-			return QueryGoogleAPIAsync<GeocodingRequest, GeocodingResponse>(request);
+			return QueryGoogleAPIAsync(request);
 		}
-
-
-
-		override protected Uri GetUri(MapsBaseRequest request)
-		{
-			string scheme = request.IsSSL ? "https://" : "http://";
-
-			Uri uri = new Uri(scheme + BaseUrl + GeocodeUri + request.Output.ToString().ToLower());
-
-			return uri;
-		}
-
+		
 		override protected void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)
 		{
 			GeocodingRequest request = (GeocodingRequest)baseRequest;

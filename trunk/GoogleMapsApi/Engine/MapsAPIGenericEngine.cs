@@ -1,42 +1,33 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using GoogleMapsApi.Entities.Common;
-using System.Linq;
-using GoogleMapsApi.Serialization;
 
 namespace GoogleMapsApi.Engine
 {
-	public abstract class MapsAPIGenericEngine
+	public abstract class MapsAPIGenericEngine<TRequest, TResponse>
+		where TRequest : MapsBaseRequest
+		where TResponse : class
 	{
-		protected static string BaseUrl;
-
-		protected IObjectSerializerFactory objectSerializerFactory;
-
-		static MapsAPIGenericEngine()
+		protected virtual string BaseUrl
 		{
-			BaseUrl = @"maps.google.com/maps/api/";
+			get
+			{
+				return "maps.google.com/maps/api/";
+			}
 		}
 
-		protected MapsAPIGenericEngine()
-		{
-			objectSerializerFactory = new XmlObjectSerializerFactory();
-		}
-
-		protected IAsyncResult BeginQueryGoogleAPI<TRequest, TResponse>(TRequest request, AsyncCallback asyncCallback, object state)
-			where TRequest : MapsBaseRequest
-			where TResponse : class
+		protected IAsyncResult BeginQueryGoogleAPI(TRequest request, AsyncCallback asyncCallback, object state)
 		{
 			// Must use TaskCompletionSource because in .NET 4.0 there's no overload of ContinueWith that accepts a state object (used in IAsyncResult).
 			// Such overloads have been added in .NET 4.5, so this can be removed if/when the project is promoted to that version.
 			// An example of such an added overload can be found at: http://msdn.microsoft.com/en-us/library/hh160386.aspx
 
 			var completionSource = new TaskCompletionSource<TResponse>(state);
-			QueryGoogleAPIAsync<TRequest, TResponse>(request).ContinueWith(t =>
+			QueryGoogleAPIAsync(request).ContinueWith(t =>
 			{
 				if (t.IsFaulted)
 					completionSource.SetException(t.Exception);
@@ -51,38 +42,38 @@ namespace GoogleMapsApi.Engine
 			return completionSource.Task;
 		}
 
-		protected TResponse EndQueryGoogleAPI<TResponse>(IAsyncResult asyncResult)
-			where TResponse : class 
+		protected TResponse EndQueryGoogleAPI(IAsyncResult asyncResult)
 		{
 			return ((Task<TResponse>)asyncResult).Result;
 		}
 
-		protected TResponse QueryGoogleAPI<TRequest, TResponse>(TRequest request)
-			where TRequest : MapsBaseRequest
-			where TResponse : class 
+		protected TResponse QueryGoogleAPI(TRequest request)
 		{
-			return QueryGoogleAPIAsync<TRequest, TResponse>(request).Result;
+			return QueryGoogleAPIAsync(request).Result;
 		}
 
-		protected Task<TResponse> QueryGoogleAPIAsync<TRequest, TResponse>(TRequest request)
-			where TRequest : MapsBaseRequest
-			where TResponse : class
+		protected Task<TResponse> QueryGoogleAPIAsync(TRequest request)
 		{
 			var client = new WebClient();
 			ConfigureUnderlyingWebClient(client, request);
-			return client.DownloadStringTaskAsync(GetUri(request))
-				.ContinueWith(t => Deserialize<TRequest, TResponse>(request, t.Result), TaskContinuationOptions.ExecuteSynchronously);
+			var uri = GetUri(request);
+			return client.DownloadStringTaskAsync(uri)
+				.ContinueWith(t => Deserialize(t.Result), TaskContinuationOptions.ExecuteSynchronously);
 		}
 
-		protected abstract Uri GetUri(MapsBaseRequest request);
+		private Uri GetUri(MapsBaseRequest request)
+		{
+			string scheme = request.IsSSL ? "https://" : "http://";
+			return new Uri(scheme + BaseUrl + "json");
+		}
+		
 		protected abstract void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest request);
 
-		private TResponse Deserialize<TRequest, TResponse>(TRequest request, string serializedObject)
-			where TRequest : MapsBaseRequest
-			where TResponse : class
+		private TResponse Deserialize(string serializedObject)
 		{
-			var serializer = objectSerializerFactory.GetSerializer<TResponse>(request.Output);
-			return (TResponse)serializer.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(serializedObject)));
+			var serializer = new DataContractJsonSerializer(typeof(TResponse));
+			var stream = new MemoryStream(Encoding.UTF8.GetBytes(serializedObject));
+			return (TResponse)serializer.ReadObject(stream);
 		}
 	}
 }

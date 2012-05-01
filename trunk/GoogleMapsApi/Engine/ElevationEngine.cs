@@ -9,43 +9,34 @@ using GoogleMapsApi.Entities.Elevation.Response;
 
 namespace GoogleMapsApi.Engine
 {
-	public class ElevationEngine : MapsAPIGenericEngine
+	public class ElevationEngine : MapsAPIGenericEngine<ElevationRequest, ElevationResponse>
 	{
-		private static readonly string ElevationUrl;
-
-		static ElevationEngine()
+		protected override string BaseUrl
 		{
-			ElevationUrl = @"elevation/";
+			get
+			{
+				return base.BaseUrl + "elevation/";
+			}
 		}
 
 		public IAsyncResult BeginGetElevation(ElevationRequest request, AsyncCallback asyncCallback, object state)
 		{
-			return BeginQueryGoogleAPI<ElevationRequest, ElevationResponse>(request, asyncCallback, state);
+			return BeginQueryGoogleAPI(request, asyncCallback, state);
 		}
 
 		public ElevationResponse EndGetElevation(IAsyncResult asyncResult)
 		{
-			return EndQueryGoogleAPI<ElevationResponse>(asyncResult);
+			return EndQueryGoogleAPI(asyncResult);
 		}
 
 		public ElevationResponse GetElevation(ElevationRequest request)
 		{
-			return QueryGoogleAPI<ElevationRequest, ElevationResponse>(request);
+			return QueryGoogleAPI(request);
 		}
 		
 		public Task<ElevationResponse> GetElevationAsync(ElevationRequest request)
 		{
-			return QueryGoogleAPIAsync<ElevationRequest, ElevationResponse>(request);
-		}
-
-
-		protected override Uri GetUri(MapsBaseRequest request)
-		{
-			string scheme = request.IsSSL ? "https://" : "http://";
-
-			Uri uri = new Uri(scheme + BaseUrl + ElevationUrl + request.Output.ToString().ToLower());
-
-			return uri;
+			return QueryGoogleAPIAsync(request);
 		}
 
 		protected override void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)

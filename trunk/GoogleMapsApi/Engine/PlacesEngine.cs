@@ -2,54 +2,41 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Net;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.Directions.Request;
-using GoogleMapsApi.Entities.Directions.Response;
 using GoogleMapsApi.Entities.Places.Request;
 using GoogleMapsApi.Entities.Places.Response;
 
 namespace GoogleMapsApi.Engine
 {
-	public class PlacesEngine : MapsAPIGenericEngine
+	public class PlacesEngine : MapsAPIGenericEngine<PlacesRequest, PlacesResponse>
 	{
-		private static readonly string PlacesUrl;
-
-		static PlacesEngine()
+		protected override string BaseUrl
 		{
-			BaseUrl = "maps.googleapis.com/maps/api/";
-
-			PlacesUrl = @"place/search/";
+			get
+			{
+				return "maps.googleapis.com/maps/api/place/search/";
+			}
 		}
 
 		public IAsyncResult BeginGetPlaces(PlacesRequest request, AsyncCallback asyncCallback, object state)
 		{
-			return BeginQueryGoogleAPI<PlacesRequest, PlacesResponse>(request, asyncCallback, state);
+			return BeginQueryGoogleAPI(request, asyncCallback, state);
 		}
 
 		public PlacesResponse EndGetPlaces(IAsyncResult asyncResult)
 		{
-			return EndQueryGoogleAPI<PlacesResponse>(asyncResult);
+			return EndQueryGoogleAPI(asyncResult);
 		}
 
 		public PlacesResponse GetPlaces(PlacesRequest request)
 		{
-			return QueryGoogleAPI<PlacesRequest, PlacesResponse>(request);
+			return QueryGoogleAPI(request);
 		}
 
 		public Task<PlacesResponse> GetPlacesAsync(PlacesRequest request)
 		{
-			return QueryGoogleAPIAsync<PlacesRequest, PlacesResponse>(request);
-		}
-
-		protected override Uri GetUri(MapsBaseRequest request)
-		{
-			string scheme = request.IsSSL ? "https://" : "http://";
-
-			Uri uri = new Uri(scheme + BaseUrl + PlacesUrl + request.Output.ToString().ToLower());
-
-			return uri;
+			return QueryGoogleAPIAsync(request);
 		}
 
 		protected override void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)
@@ -130,7 +117,5 @@ namespace GoogleMapsApi.Engine
 				throw new ArgumentException("ApiKey must be povided", "ApiKey");
 			}
 		}
-
-		
 	}
 }
