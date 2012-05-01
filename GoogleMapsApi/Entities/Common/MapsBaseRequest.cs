@@ -2,8 +2,6 @@
 {
 	public class MapsBaseRequest
 	{
-		public ResponseOutputType Output { get; set; }
-
 		/// <summary>
 		/// sensor (required) — Indicates whether or not the directions request comes from a device with a location sensor. This value must be either true or false.
 		/// </summary>

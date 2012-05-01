@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Specialized;
 using System.Net;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
@@ -9,42 +8,34 @@ using GoogleMapsApi.Entities.Directions.Response;
 
 namespace GoogleMapsApi.Engine
 {
-	public class DirectionsEngine : MapsAPIGenericEngine
+	public class DirectionsEngine : MapsAPIGenericEngine<DirectionsRequest, DirectionsResponse>
 	{
-		private static readonly string DirectionsUrl;
-
-		static DirectionsEngine()
+		protected override string BaseUrl
 		{
-			DirectionsUrl = @"directions/";
+			get
+			{
+				return base.BaseUrl + "directions/";
+			}
 		}
 
 		public IAsyncResult BeginGetDirections(DirectionsRequest request, AsyncCallback asyncCallback, object state)
 		{
-			return BeginQueryGoogleAPI<DirectionsRequest, DirectionsResponse>(request, asyncCallback, state);
+			return BeginQueryGoogleAPI(request, asyncCallback, state);
 		}
 
 		public DirectionsResponse EndGetDirections(IAsyncResult asyncResult)
 		{
-			return EndQueryGoogleAPI<DirectionsResponse>(asyncResult);
+			return EndQueryGoogleAPI(asyncResult);
 		}
 
 		public DirectionsResponse GetDirections(DirectionsRequest request)
 		{
-			return QueryGoogleAPI<DirectionsRequest, DirectionsResponse>(request);
+			return QueryGoogleAPI(request);
 		}
 		
 		public Task<DirectionsResponse> GetDirectionsAsync(DirectionsRequest request)
 		{
-			return QueryGoogleAPIAsync<DirectionsRequest, DirectionsResponse>(request);
-		}
-
-		protected override Uri GetUri(MapsBaseRequest request)
-		{
-			string scheme = request.IsSSL ? "https://" : "http://";
-
-			Uri uri = new Uri(scheme + BaseUrl + DirectionsUrl + request.Output.ToString().ToLower());
-
-			return uri;
+			return QueryGoogleAPIAsync(request);
 		}
 
 		protected override void ConfigureUnderlyingWebClient(WebClient wc, MapsBaseRequest baseRequest)
