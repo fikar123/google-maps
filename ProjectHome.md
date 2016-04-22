@@ -1,0 +1,1 @@
+# Moved to GitHub at https://github.com/maximn/google-maps #
